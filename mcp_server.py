@@ -45,3 +45,5 @@ def send_email(to_email: str, subject: str, body: str) -> str:
 if __name__ == "__main__":
     
     mcp.run(transport="sse", port=8000)
+
+    #python mcp_server.py

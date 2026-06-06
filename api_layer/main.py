@@ -31,3 +31,4 @@ async def chat_with_agent(data: UserRequest):
 if __name__ == "__main__":
     import uvicorn
     uvicorn.run(app, host="127.0.0.1", port=8000)
+#uvicorn api_layer.main:app --reload --port 8080
