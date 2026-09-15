@@ -5,5 +5,5 @@ fastmcp
 langchain
 langchain-groq
 langgraph
-serpapi
 yagmail
+google-search-results
