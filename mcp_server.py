@@ -44,6 +44,6 @@ def send_email(to_email: str, subject: str, body: str) -> str:
 
 if __name__ == "__main__":
     port = int(os.getenv("PORT", "8000"))
-    mcp.run(transport="sse", port=port)
+    mcp.run(transport="sse", host="0.0.0.0", port=8080)
 
     #python mcp_server.py
