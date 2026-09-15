@@ -3,7 +3,6 @@ from fastapi import FastAPI
 from pydantic import BaseModel
 from dotenv import load_dotenv
 
-
 base_dir = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 load_dotenv(os.path.join(base_dir, ".env"))
 
@@ -20,9 +19,17 @@ async def chat_with_agent(data: UserRequest):
         {"messages": [("user", data.prompt)]},
         config={"configurable": {"thread_id": "streamlit_user"}}
     )
-    
+
+    print("===== AGENT MESSAGES =====")
+
+    for message in agent_response["messages"]:
+        print("TYPE:", type(message).__name__)
+        print("CONTENT:", message.content)
+        print("TOOL CALLS:", getattr(message, "tool_calls", None))
+        print("--------------------------")
+
     final_answer = agent_response["messages"][-1].content
-    
+
     return {
         "status": "success",
         "output": final_answer
@@ -31,4 +38,5 @@ async def chat_with_agent(data: UserRequest):
 if __name__ == "__main__":
     import uvicorn
     uvicorn.run(app, host="127.0.0.1", port=8000)
-#uvicorn api_layer.main:app --reload --port 8080
+
+# uvicorn api_layer.main:app --reload --port 8080
