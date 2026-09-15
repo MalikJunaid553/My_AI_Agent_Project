@@ -43,7 +43,7 @@ def send_email(to_email: str, subject: str, body: str) -> str:
         return f"Error sending email: {str(e)}"
 
 if __name__ == "__main__":
-    
-    mcp.run(transport="sse", port=8000)
+    port = int(os.getenv("PORT", "8000"))
+    mcp.run(transport="sse", port=port)
 
     #python mcp_server.py

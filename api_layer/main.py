@@ -18,7 +18,7 @@ class UserRequest(BaseModel):
 async def chat_with_agent(data: UserRequest):
     agent_response = await assistant_agent.ainvoke(
         {"messages": [("user", data.prompt)]},
-        config={"configurable": {"thread_id": "postman_user"}}
+        config={"configurable": {"thread_id": "streamlit_user"}}
     )
     
     final_answer = agent_response["messages"][-1].content
