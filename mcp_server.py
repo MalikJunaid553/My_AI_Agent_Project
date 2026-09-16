@@ -1,5 +1,4 @@
 import os
-import yagmail
 from fastmcp import FastMCP
 from serpapi import GoogleSearch
 from dotenv import load_dotenv
@@ -46,31 +45,31 @@ def search_internet(query: str) -> str:
 
 @mcp.tool()
 def send_email(to_email: str, subject: str, body: str) -> str:
-    """Sends an email to a recipient using yagmail."""
+    """Sends an email using Resend."""
 
     print("===== SEND EMAIL TOOL CALLED =====")
     print("TO:", to_email)
     print("SUBJECT:", subject)
-    print("BODY:", body)
 
-    user = os.getenv("YAGMAIL_USER")
-    password = os.getenv("YAGMAIL_APP_PASSWORD")
+    api_key = os.getenv("RESEND_API_KEY")
 
-    print("YAGMAIL_USER EXISTS:", bool(user))
-    print("YAGMAIL_APP_PASSWORD EXISTS:", bool(password))
+    if not api_key:
+        print("RESEND_API_KEY IS MISSING")
+        return "Error: RESEND_API_KEY is missing."
 
     try:
-        yag = yagmail.SMTP(user, password)
+        import resend
 
-        print("SMTP CONNECTION CREATED")
+        resend.api_key = api_key
 
-        yag.send(
-            to=to_email,
-            subject=subject,
-            contents=body
-        )
+        response = resend.Emails.send({
+            "from": "onboarding@resend.dev",
+            "to": [to_email],
+            "subject": subject,
+            "text": body
+        })
 
-        print("EMAIL SEND COMPLETED")
+        print("RESEND RESPONSE:", response)
 
         return f"Successfully sent email to {to_email}"
 
